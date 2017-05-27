@@ -1,7 +1,5 @@
 package com.rsredsq.gradient_descent;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import java.io.Serializable;
 
 public class Point2D implements Serializable {

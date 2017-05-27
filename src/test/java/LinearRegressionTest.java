@@ -1,3 +1,4 @@
+import com.rsredsq.gradient_descent.GradientDescent;
 import com.rsredsq.gradient_descent.LinearRegression;
 import com.rsredsq.gradient_descent.Point2D;
 import org.apache.spark.SparkConf;
@@ -16,7 +17,7 @@ public class LinearRegressionTest {
 
     @Before
     public void before() {
-        SparkConf conf = new SparkConf().setAppName("Simple Application").setMaster("local");
+        SparkConf conf = new SparkConf().setAppName("Linear Regression Test").setMaster("local");
         jsc = new JavaSparkContext(conf);
     }
 
@@ -26,11 +27,14 @@ public class LinearRegressionTest {
         for (int i = 0; i < 100; i++) {
             points.add(new Point2D(i, i));
         }
-        LinearRegression regression = new LinearRegression(jsc.parallelize(points));
-        regression.setLearningRate(0.0001).setIterationsCount(1000);
+        GradientDescent gradientDescent = new GradientDescent(jsc, jsc.parallelize(points));
+
+        gradientDescent.setLearningRate(0.0001).setIterationsCount(1000);
         double[] expectedLineParameters = {1.0, 0.0};
-        regression.run();
-        double[] actualLineParameters = regression.getParameters();
+
+        gradientDescent.run();
+
+        double[] actualLineParameters = gradientDescent.getRegressionParameters();
 
         assertArrayEquals(expectedLineParameters, actualLineParameters, 0.1);
     }
