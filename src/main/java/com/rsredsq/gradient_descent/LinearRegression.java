@@ -1,6 +1,6 @@
 package com.rsredsq.gradient_descent;
 
-public class LinearRegression implements Regression {
+public class LinearRegression extends Regression {
     private double currentK = 0.0;
     private double currentB = 0.0;
 
@@ -13,12 +13,7 @@ public class LinearRegression implements Regression {
     }
 
     @Override
-    public double sumErrors(double error1, double error2) {
-        return error1 + error2;
-    }
-
-    @Override
-    public double[] computeDerivative(Point2D point) {
+    public double[] computeDerivatives(Point2D point) {
         double pointX = point.getX();
         double pointY = point.getY();
         double deriveK = -2 * pointX * (currentB - currentK * pointX + pointY);
@@ -35,8 +30,7 @@ public class LinearRegression implements Regression {
 
     @Override
     public double[] getParameters() {
-        double[] params = {currentK, currentB};
-        return params;
+        return new double[] { currentK, currentB };
     }
 
     @Override
